@@ -5,19 +5,19 @@
       <div class="post-list-item" v-for="p in posts"  :class="{deleted: p.status == '2', published: p.status == '1', draft: p.status ==  '0'}">
         <h3>
           <span v-if="['0', '1', '2'].indexOf(p.status) === -1" class="note">[Status inconnu]</span>
-          <span @click="displayPostId = p.id" class="clickable">{{p.title}}</span>
+          <span @click="postContent = p.content" class="clickable">{{p.title}}</span>
         </h3>
           <p><strong>Catégorie:</strong> {{p.category_id}}</p>
           <p class="small">
             <strong>Auteur :</strong> {{p.author}},
             <strong>Tags :</strong> {{p.tags.join(',') || 'Tags invalides'}}</p>
           <p>{{p.extract}}</p>
-        <!-- <pre>{{p}}</pre> -->
+        <pre>{{p}}</pre>
       </div>
 
-      <div class="modal" v-if="displayPostId !== null">
-        <button type="button" name="button" @click="displayPostId = null" class="block">Fermer</button>
-        {{posts[displayPostId].content}}
+      <div class="modal" v-if="postContent !== null">
+        <button type="button" name="button" @click="postContent = null" class="block">Fermer</button>
+        {{postContent}}
       </div>
 
   </div>
@@ -31,7 +31,7 @@ export default {
   data () {
     return {
       posts:[],
-      displayPostId:null,
+      postContent: null,
     }
   },
   created(){
