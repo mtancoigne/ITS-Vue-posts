@@ -4,7 +4,7 @@
 
       <!-- <button type="button" name="button" @click="showForm=true">Ajouter</button> -->
 
-      <div class="anmials">
+      <div class="animals">
           <ul class="animal-list-item" v-for="a in animals">
             <li><h3>{{a.name}}</h3></li>
             <li><strong>Famille :</strong>{{a.animal}}</li>
@@ -63,12 +63,25 @@ export default {
 </script>
 
 <style media="screen">
+  *{
+    box-sizing: border-box;
+  }
+  body{
+    font-family:cursive;
+  }
   .animals{
     display: flex;
+    flex-flow: wrap;
   }
   .animal-list-item{
-    width:25%;
+    width:22%;
+    margin:1em 1% ;
     border:none;
     background-color: #EEE;
+    list-style: none;
+    padding:0;
+  }
+  .animal-list-item li{
+    padding: .5em 1em;
   }
 </style>
