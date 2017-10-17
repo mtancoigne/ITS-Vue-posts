@@ -2,6 +2,8 @@
   <div class="hello">
     <h2>Derniers articles</h2>
 
+      <button type="button" name="button" @click="showForm=true">Ajouter</button>
+
       <div class="post-list-item" v-for="p in posts"  :class="{deleted: p.status == '2', published: p.status == '1', draft: p.status ==  '0', gibsonized: gibsonize(p)}">
         <div class="content" v-if="!gibsonize(p)">
           <h3>
@@ -28,6 +30,46 @@
         {{postContent}}
       </div>
 
+      <div class="modal" v-if="showForm">
+        <form action="http://163.172.163.114:1337/post/create" method="post">
+
+          <label>Titre</label>
+          <input type="text" name="title" />
+
+          <label>Extrait</label>
+          <textarea name="extract" rows="8" cols="80"></textarea>
+
+          <label>Contenu</label>
+          <textarea name="content" rows="8" cols="80"></textarea>
+
+          <label>Status:</label>
+          <label class="input-label"><input type="radio" name="status" value="0"> Brouillon</label>
+          <label class="input-label"><input type="radio" name="status" value="1"> Publié</label>
+          <label class="input-label"><input type="radio" name="status" value="2"> Reporté</label>
+
+          <label>Auteur</label>
+          <input type="text" name="author" value="">
+
+          <label>Catégorie</label>
+          <select name="category_id">
+            <option value="1">Programmation</option>
+            <option value="2">Sécurité informatique</option>
+            <option value="3">Réseau</option>
+          </select>
+
+          <label>Tags</label>
+          <select name="tags[]" multiple>
+            <option value="1">PHP</option>
+            <option value="2">HTML</option>
+            <option value="3">Routeurs</option>
+            <option value="4">CSS</option>
+            <option value="5">Hackz</option>
+          </select>
+
+          <input type="submit" value="Envoyer">
+        </form>
+      </div>
+
   </div>
 </template>
 
@@ -35,13 +77,14 @@
 import Vue from 'vue'
 
 export default {
-  name: 'HelloWorld',
+  name: 'List',
   data () {
     return {
       posts:[],
       postContent: null,
       textFilter: /gibson/,
-      authorFilter: /moi/
+      authorFilter: /moi/,
+      showForm: false,
     }
   },
   created(){
@@ -59,8 +102,27 @@ export default {
 </script>
 
 <style media="screen">
+
+  label{
+    margin-top: 1em;
+    display:block; font-weight: bold
+  }
+  .input-label{
+    margin-top: 0;
+    font-weight: normal;
+  }
+  textarea{
+    width:100%;
+    height: 20em;
+  }
+  textarea[name="extract"]{
+    height: 5em;
+  }
   *{
     box-sizing: border-box;
+  }
+  body{
+    font-family: Ubuntu;
   }
   .gibsonized{
     color: red
@@ -102,7 +164,8 @@ export default {
     right:25px;
     bottom:25px;
     padding:15px;
-    box-shadow: 0 0 5px 0px rgba(0,0,0, .5)
+    box-shadow: 0 0 5px 0px rgba(0,0,0, .5);
+    overflow-y: scroll;
   }
   .block{
     display: block;
@@ -110,5 +173,13 @@ export default {
     padding: 15px;
     margin-bottom:15px;
     border:1px solid rgba(0,0,0, .5);
+  }
+  input[type=submit]{
+    background-color:lime;
+    display: block;
+    padding: 1em;
+    width:100%;
+    border: 1px solid rgba(0,0,0,.5);
+    margin-top:15px;
   }
 </style>
