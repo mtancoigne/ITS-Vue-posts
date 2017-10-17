@@ -59,7 +59,7 @@ export default {
   padding: 10px;
 }
   .deleted{ font-style: italic; color: darkred; border-color: darkred}
-  .draft{font-weight: normal; color: gray}
+  .draft{font-weight: normal; opacity: .2}
   .note{
     font-weight: normal;
     color:red;
