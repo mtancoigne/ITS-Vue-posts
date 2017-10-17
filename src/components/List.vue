@@ -12,7 +12,7 @@
             <strong>Auteur :</strong> {{p.author}},
             <strong>Tags :</strong> {{p.tags.join(',') || 'Tags invalides'}}</p>
           <p>{{p.extract}}</p>
-        <pre>{{p}}</pre>
+        <!-- <pre>{{p}}</pre> -->
       </div>
 
       <div class="modal" v-if="postContent !== null">
