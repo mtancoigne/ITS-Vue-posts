@@ -5,12 +5,15 @@
       <div class="post-list-item" v-for="p in posts"  :class="{deleted: p.status == '2', published: p.status == '1', draft: p.status ==  '0'}">
         <h3>
           <span v-if="['0', '1', '2'].indexOf(p.status) === -1" class="note">[Status inconnu]</span>
+          <span v-if="p.status === '0'">[Brouillon]</span>
+          <span v-if="p.status === '1'">[Publié]</span>
+          <span v-if="p.status === '2'">[Reportz]</span>
           <span @click="postContent = p.content" class="clickable">{{p.title}}</span>
         </h3>
           <p><strong>Catégorie:</strong> {{p.category_id}}</p>
           <p class="small">
             <strong>Auteur :</strong> {{p.author}},
-            <strong>Tags :</strong> {{p.tags.join(',') || 'Tags invalides'}}</p>
+            <strong>Tags :</strong> {{p.tags.join(',')}}</p>
           <p>{{p.extract}}</p>
         <!-- <pre>{{p}}</pre> -->
       </div>
