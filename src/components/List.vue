@@ -2,8 +2,8 @@
   <div class="hello">
     <h2>Derniers articles</h2>
 
-      <div class="post-list-item" v-for="p in posts"  :class="{deleted: p.status == '2', published: p.status == '1', draft: p.status ==  '0', gibsonized: /gibson/.test(p.title.toLowerCase())}">
-        <div class="content">
+      <div class="post-list-item" v-for="p in posts"  :class="{deleted: p.status == '2', published: p.status == '1', draft: p.status ==  '0', gibsonized: gibsonize(p.title)}">
+        <div class="content" v-if="!gibsonize(p.title)">
           <h3>
             <span v-if="['0', '1', '2'].indexOf(p.status) === -1" class="note">[Status inconnu]</span>
             <span v-if="p.status === '0'">[Brouillon]</span>
@@ -17,6 +17,9 @@
               <strong>Tags :</strong> {{p.tags.join(',')}}</p>
             <p>{{p.extract}}</p>
           <!-- <pre>{{p}}</pre> -->
+        </div>
+        <div class="content" v-else>
+          <strong>{{p.author}}</strong>, votre article a été filtré <small>filtre: {{`${textFilter}`}}</small>
         </div>
       </div>
 
@@ -37,6 +40,7 @@ export default {
     return {
       posts:[],
       postContent: null,
+      textFilter: /gibson/
     }
   },
   created(){
@@ -46,28 +50,26 @@ export default {
     })
   },
   methods:{
-
+    gibsonize(text){
+      return this.textFilter.test(text.toLowerCase())
+    }
   }
 }
 </script>
 
 <style media="screen">
-*{
-  box-sizing: border-box;
-}
-.gibsonized .content{
-  display:none
-}
-.gibsonized:before{
-  content: 'This item has been gibsonized';
-  color: red
-}
+  *{
+    box-sizing: border-box;
+  }
+  .gibsonized{
+    color: red
+  }
 
-.post-list-item{
-  border:1px solid black;
-  margin-bottom: 10px;
-  padding: 10px;
-}
+  .post-list-item{
+    border:1px solid black;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
   .deleted{ font-style: italic; color: darkred; border-color: darkred}
   .draft{font-weight: normal; opacity: .2}
   .note{
