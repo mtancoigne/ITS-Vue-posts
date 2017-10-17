@@ -2,8 +2,8 @@
   <div class="hello">
     <h2>Derniers articles</h2>
 
-      <div class="post-list-item" v-for="p in posts"  :class="{deleted: p.status == '2', published: p.status == '1', draft: p.status ==  '0', gibsonized: gibsonize(p.title)}">
-        <div class="content" v-if="!gibsonize(p.title)">
+      <div class="post-list-item" v-for="p in posts"  :class="{deleted: p.status == '2', published: p.status == '1', draft: p.status ==  '0', gibsonized: gibsonize(p)}">
+        <div class="content" v-if="!gibsonize(p)">
           <h3>
             <span v-if="['0', '1', '2'].indexOf(p.status) === -1" class="note">[Status inconnu]</span>
             <span v-if="p.status === '0'">[Brouillon]</span>
@@ -40,7 +40,8 @@ export default {
     return {
       posts:[],
       postContent: null,
-      textFilter: /gibson/
+      textFilter: /gibson/,
+      authorFilter: /moi/
     }
   },
   created(){
@@ -50,8 +51,8 @@ export default {
     })
   },
   methods:{
-    gibsonize(text){
-      return this.textFilter.test(text.toLowerCase())
+    gibsonize(post){
+      return this.textFilter.test(post.content.toLowerCase()) || this.authorFilter.test(post.content.toLowerCase())
     }
   }
 }
