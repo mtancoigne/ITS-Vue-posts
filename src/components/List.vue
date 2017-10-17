@@ -1,0 +1,98 @@
+<template>
+  <div class="hello">
+    <h2>Derniers articles</h2>
+
+      <div class="post-list-item" v-for="p in posts"  :class="{deleted: p.status == '2', published: p.status == '1', draft: p.status ==  '0'}">
+        <h3>
+          <span v-if="['0', '1', '2'].indexOf(p.status) === -1" class="note">[Status inconnu]</span>
+          <span @click="displayPostId = p.id" class="clickable">{{p.title}}</span>
+        </h3>
+          <p><strong>Catégorie:</strong> {{p.category_id}}</p>
+          <p class="small">
+            <strong>Auteur :</strong> {{p.author}},
+            <strong>Tags :</strong> {{p.tags.join(',') || 'Tags invalides'}}</p>
+          <p>{{p.extract}}</p>
+        <!-- <pre>{{p}}</pre> -->
+      </div>
+
+      <div class="modal" v-if="displayPostId !== null">
+        <button type="button" name="button" @click="displayPostId = null" class="block">Fermer</button>
+        {{posts[displayPostId].content}}
+      </div>
+
+  </div>
+</template>
+
+<script>
+import Vue from 'vue'
+
+export default {
+  name: 'HelloWorld',
+  data () {
+    return {
+      posts:[],
+      displayPostId:null,
+    }
+  },
+  created(){
+    Vue.http.get('http://163.172.163.114:1337/post')
+    .then((data)=>{
+      this.posts = data.body;
+    })
+  },
+  methods:{
+
+  }
+}
+</script>
+
+<style media="screen">
+*{
+  box-sizing: border-box;
+}
+.post-list-item{
+  border:1px solid black;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+  .deleted{ font-style: italic; color: darkred; border-color: darkred}
+  .draft{font-weight: normal; color: gray}
+  .note{
+    font-weight: normal;
+    color:red;
+  }
+  .clickable{
+    cursor: pointer;
+  }
+  p{
+    margin:0;
+  }
+  .post-list-item h1, .post-list-item h2, h3, h4, h5, h6{
+    padding:0;
+    margin:0;
+    border-bottom:1px dashed black
+  }
+  .small{
+    font-size:.8em;
+    border-bottom: 3px double #DDD;
+    margin-bottom: 10px;
+  }
+
+  .modal{
+    background-color: white;
+    position:fixed;
+    top: 25px;
+    left:25px;
+    right:25px;
+    bottom:25px;
+    padding:15px;
+    box-shadow: 0 0 5px 0px rgba(0,0,0, .5)
+  }
+  .block{
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom:15px;
+    border:1px solid rgba(0,0,0, .5);
+  }
+</style>
