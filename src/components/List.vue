@@ -52,7 +52,7 @@ export default {
   },
   methods:{
     gibsonize(post){
-      return this.textFilter.test(post.content.toLowerCase()) || this.authorFilter.test(post.content.toLowerCase())
+      return this.textFilter.test(post.content.toLowerCase()) || this.authorFilter.test(post.author.toLowerCase())
     }
   }
 }
